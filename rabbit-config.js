@@ -5,9 +5,9 @@ require('dotenv').config();
 //const RABBITMQ_URL = process.env["RABBIT.URL"];
 const RABBITMQ_URL = process.env.RABBITMQ_URL;
 const USER_EXCHANGE = process.env.USER_EXCHANGE;
-const USER_OFFER_EXCHANGE = process.env.USER_OFFER_EXCHANGE;
-const USER_NOTIFICATION_EXCHANGE = process.env.USER_NOTIFICATION_EXCHANGE;
-const USER_ZONE_EXCHANGE = process.env.USER_ZONE_EXCHANGE;
+// const USER_OFFER_EXCHANGE = process.env.USER_OFFER_EXCHANGE;
+// const USER_NOTIFICATION_EXCHANGE = process.env.USER_NOTIFICATION_EXCHANGE;
+// const USER_ZONE_EXCHANGE = process.env.USER_ZONE_EXCHANGE;
 
 const OFFER_QUEUE = "offerQueue";
 const NOTIFICATION_QUEUE = "notificationQueue";
@@ -41,9 +41,9 @@ exports.rabbitConfig = async () => {
 
     // Création des echanges si ils n'existent pas
     await channel.assertExchange(USER_EXCHANGE, 'fanout', { durable: true });
-    await channel.assertExchange(USER_OFFER_EXCHANGE, 'fanout', { durable: true });
-    await channel.assertExchange(USER_NOTIFICATION_EXCHANGE, 'fanout', { durable: true });
-    await channel.assertExchange(USER_ZONE_EXCHANGE, 'fanout', { durable: true });
+    //await channel.assertExchange(USER_OFFER_EXCHANGE, 'fanout', { durable: true });
+    //await channel.assertExchange(USER_NOTIFICATION_EXCHANGE, 'fanout', { durable: true });
+    //await channel.assertExchange(USER_ZONE_EXCHANGE, 'fanout', { durable: true });
 
     // Création des queues si elles n'existent pas (userNotificationQueue) | userId, message, createdAt
     

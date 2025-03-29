@@ -50,9 +50,10 @@ SERVICE_NAME=user-service
 
 RABBITMQ_URL=amqp://localhost
 USER_EXCHANGE=UserExchange
-USER_OFFER_EXCHANGE=UserOfferExchange
-USER_NOTIFICATION_EXCHANGE=UserNotificationExchange
-USER_ZONE_EXCHANGE=UserZoneExchange
+
+ADMIN_NAME=set_admin_name
+ADMIN_EMAIL=set_admin_email
+ADMIN_PASSWORD=set_admin_password
 ```
 
 ## 🚦 Démarrage de l'Application

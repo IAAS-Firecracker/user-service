@@ -1,7 +1,8 @@
 const express = require("express");
 const userController = require("../controllers/userController");
-
 const router = express.Router();
+const isAdminMiddleware = require("../middleware/isAdmin");
+const authMiddleware = require("../middleware/auth");
 
 /**
  * @swagger
@@ -98,8 +99,9 @@ const router = express.Router();
  *                 message: "Internal Server Error"
  * 
  */
-router.get('', userController.all);
-router.get('/:id', userController.get);
-router.delete('/:id', userController.delete);
+router.get('', authMiddleware, userController.all);
+router.get('/:id', authMiddleware, userController.get);
+router.delete('/:id', isAdminMiddleware, userController.delete);
+router.post('/create-admin', isAdminMiddleware, userController.createAdmin);
 
 module.exports = router;

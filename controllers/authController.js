@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models/models');
-const { rabbitPublish, rabbitPublishNotification, rabbitPublishOffer, rabbitPublishUser } = require("../rabbit-ops");
+const { rabbitPublishNotification, rabbitPublishUser } = require("../rabbit-ops");
 
 
 exports.register = async (req, res) => {
@@ -13,6 +13,7 @@ exports.register = async (req, res) => {
         "id": newUser.id,
         name,
         email,
+        role: newUser.role,
         type: "CREATE"
     };
 
@@ -60,11 +61,13 @@ exports.login = async (req, res) => {
 
     // Génère un token JWT avec l'ID de l'utilisateur
     const token = jwt.sign(
-      { id: user.id, email: user.email }, // Payload du token
+      { id: user.id, email: user.email, role: user.role }, // Payload du token
       process.env.JWT_SECRET, // Clé secrète pour signer le token
       { expiresIn: '15d' } // Durée de validité du token
     );
 
+    const tokenExpiration = Math.floor(Date.now() / 1000) + (15 * 24 * 3600); // Current timestamp + 15 days in seconds
+    
     res.cookie("token", token, {
       maxAge: 15 * 24 * 3600,
       httpOnly: true,
@@ -75,6 +78,7 @@ exports.login = async (req, res) => {
     const event = {
         "id": user.id,
         token,
+        "token_exp_timestamp": tokenExpiration,
         type: "UPDATE"
     };
 

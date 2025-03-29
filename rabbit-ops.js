@@ -4,9 +4,9 @@ const { rabbitConfig } = require('./rabbit-config');
 require('dotenv').config();
 
 const USER_EXCHANGE = process.env.USER_EXCHANGE;
-const USER_OFFER_EXCHANGE = process.env.USER_OFFER_EXCHANGE;
-const USER_NOTIFICATION_EXCHANGE = process.env.USER_NOTIFICATION_EXCHANGE;
-const USER_ZONE_EXCHANGE = process.env.USER_ZONE_EXCHANGE;
+// const USER_OFFER_EXCHANGE = process.env.USER_OFFER_EXCHANGE;
+// const USER_NOTIFICATION_EXCHANGE = process.env.USER_NOTIFICATION_EXCHANGE;
+// const USER_ZONE_EXCHANGE = process.env.USER_ZONE_EXCHANGE;
 
 
 exports.rabbitPublishUser = async (msg) => {

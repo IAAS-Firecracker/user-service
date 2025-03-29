@@ -1,4 +1,5 @@
 const { User } = require('../models/models');
+const { rabbitPublishUser, rabbitPublishNotification } = require('../rabbit-ops');
 
 // get all users
 exports.all = async (req, res) => {
@@ -23,6 +24,48 @@ exports.get = async (req, res) => {
             message : err.message
         });
     }
+}
+
+exports.createAdmin = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+
+    const newUser = await User.create({ name, email, password, role: "admin" });
+
+    const event = {
+        "id": newUser.id,
+        name,
+        email,
+        role: newUser.role,
+        type: "CREATE"
+    };
+
+    const notificationEvent = {
+        "id": newUser.id,
+        message: "Creation d'un nouvel administrateur effectuée avec succès" 
+    };
+
+    rabbitPublishUser(JSON.stringify(event));
+
+    rabbitPublishNotification(JSON.stringify(notificationEvent));
+
+    console.log(event, notificationEvent);
+
+    res.status(201).json({
+      message: "Admin créé avec succès",
+      user: {
+        "id": newUser.id,
+        "name": newUser.name,
+        "email": newUser.email
+      }
+    });
+    
+  } catch (err) {
+    res.status(400).json({
+      message: "Impossible de créé l'admin",
+      error: err
+    });
+  }
 }
 
 // delete any user
