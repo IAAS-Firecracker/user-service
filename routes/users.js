@@ -100,5 +100,6 @@ const router = express.Router();
  */
 router.get('', userController.all);
 router.get('/:id', userController.get);
+router.delete('/:id', userController.delete);
 
 module.exports = router;

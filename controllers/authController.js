@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models/models');
-const { rabbitPublish, rabbitPublishNotification, rabbitPublishOffer } = require("../rabbit-ops");
+const { rabbitPublish, rabbitPublishNotification, rabbitPublishOffer, rabbitPublishUser } = require("../rabbit-ops");
 
 
 exports.register = async (req, res) => {
@@ -21,7 +21,7 @@ exports.register = async (req, res) => {
         message: "Votre inscription sur la plateforme s'est effectuée avec succès" 
     };
 
-    rabbitPublishOffer(JSON.stringify(event));
+    rabbitPublishUser(JSON.stringify(event));
 
     rabbitPublishNotification(JSON.stringify(notificationEvent));
 
@@ -75,10 +75,10 @@ exports.login = async (req, res) => {
     const event = {
         "id": user.id,
         token,
-        type: "CREATE"
+        type: "UPDATE"
     };
 
-    rabbitPublishOffer(JSON.stringify(event));
+    rabbitPublishUser(JSON.stringify(event));
     console.log(event);
 
     res.status(200).json({ message: 'Connexion réussie', "user": { "id": user.id, "name": user.name, "email": user.email, "role": user.role }, token });
