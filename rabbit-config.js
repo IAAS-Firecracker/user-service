@@ -53,11 +53,11 @@ exports.rabbitConfig = async () => {
         await channel.assertQueue(queue, { durable: true });
     });
 
-    await channel.bindQueue(ZONE_QUEUE, USER_EXCHANGE, "user.create");
+    await channel.bindQueue(ZONE_QUEUE, USER_EXCHANGE, "user.crud");
 
     await channel.bindQueue(NOTIFICATION_QUEUE, USER_EXCHANGE, "notification.create");
 
-    await channel.bindQueue(OFFER_QUEUE, USER_EXCHANGE, "user.create");
+    await channel.bindQueue(OFFER_QUEUE, USER_EXCHANGE, "user.crud");
     
     /*// For request exchange
     let queues = [ "userOfferQueue", "userNotificationQueue", "userZoneQueue"];

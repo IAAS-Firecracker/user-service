@@ -11,7 +11,7 @@ const USER_EXCHANGE = process.env.USER_EXCHANGE;
 
 exports.rabbitPublishUser = async (msg) => {
     const ch = await rabbitConfig();
-    ch.publish(USER_EXCHANGE, "user.create", Buffer.from(msg));
+    ch.publish(USER_EXCHANGE, "user.crud", Buffer.from(msg));
     console.log(`Message envoyé : ${msg}`);
 }
 
