@@ -50,6 +50,7 @@ SERVICE_NAME=user-service
 
 RABBITMQ_URL=amqp://localhost
 USER_EXCHANGE=UserExchange
+USER_NOTIFICATION_EXCHANGE=UserNotificationExchange
 
 ADMIN_NAME=set_admin_name
 ADMIN_EMAIL=set_admin_email

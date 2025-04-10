@@ -10,16 +10,20 @@ exports.register = async (req, res) => {
     const newUser = await User.create({ name, email, password });
 
     const event = {
-        "id": newUser.id,
+      "user": {
+        id: newUser.id,
         name,
         email,
         role: newUser.role,
-        type: "CREATE"
+      },
+      type: "CREATE"
     };
 
     const notificationEvent = {
+      user : {
         "id": newUser.id,
-        message: "Votre inscription sur la plateforme s'est effectuée avec succès" 
+      },
+      message: "Votre inscription sur la plateforme s'est effectuée avec succès" 
     };
 
     rabbitPublishUser(JSON.stringify(event));
@@ -76,7 +80,9 @@ exports.login = async (req, res) => {
     });
 
     const event = {
-        "id": user.id,
+        user : {
+          "id": user.id
+        },
         token,
         "token_exp_timestamp": tokenExpiration,
         type: "UPDATE"
@@ -102,8 +108,10 @@ exports.logout = async (req, res) => {
     let userId = req.userData.userId;
 
     const notificationEvent = {
+      user : {
         "id": userId,
-        message: "Vous vous êtes déconnectés de la plateforme" 
+      },
+      message: "Vous vous êtes déconnectés de la plateforme" 
     };
 
     rabbitPublishNotification(JSON.stringify(notificationEvent));

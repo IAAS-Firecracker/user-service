@@ -32,11 +32,23 @@ exports.createAdmin = async (req, res) => {
 
     const newUser = await User.create({ name, email, password, role: "admin" });
 
+    /*const event = {
+        user: {
+            "id": newUser.id,
+            name,
+            email,
+            role: newUser.role,
+        },
+        type: "CREATE"
+    };*/
+
     const event = {
-        "id": newUser.id,
-        name,
-        email,
-        role: newUser.role,
+        user : {
+            id: newUser.id,
+            name,
+            email,
+            role: newUser.role,
+        },
         type: "CREATE"
     };
 
@@ -77,7 +89,9 @@ exports.delete = async (req, res) => {
         if(deletedUser > 0)
         {
             const event = {
-                "id": deletedUser.id,
+                user : {
+                    "id": deletedUser.id
+                },
                 type: "DELETE"
             };
         
