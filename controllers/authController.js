@@ -81,7 +81,10 @@ exports.login = async (req, res) => {
 
     const event = {
         user : {
-          "id": user.id
+          "id": user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
         },
         token,
         "token_exp_timestamp": tokenExpiration,

@@ -12,7 +12,7 @@ services:
 
   postgres:
     image: postgres:15
-    container_name: postgres
+    container_name: user_service_postgres
     ports:
       - 5432:5432
     environment:
