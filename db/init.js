@@ -22,9 +22,12 @@ const createAdmin = async () => {
 
     // Event for broadcast admin creation event
     const event = {
-        "id": adminUser.id,
-        "name": adminUser.name,
-        "email": adminUser.email,
+        user : {
+            "id": adminUser.id,
+            "name": adminUser.name,
+            "email": adminUser.email,
+            "role": adminUser.role
+        },
         type: "CREATE"
     };
     rabbitPublishUser(JSON.stringify(event));
