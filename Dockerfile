@@ -5,10 +5,12 @@ WORKDIR /app
 
 VOLUME /tmp
 
+RUN npm install -g nodemon
+
 COPY package*.json ./
 
 RUN npm ci
 
 COPY . .
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]

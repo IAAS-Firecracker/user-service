@@ -6,26 +6,12 @@ services:
       - 8081:8081
     env_file:
       - .env
-
-    networks:
-      - iaas-firecracker-network
-
-  postgres:
-    image: postgres:15
-    container_name: user_service_postgres
-    ports:
-      - 5432:5432
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: user_service_db
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - .:/app
+      - /app/node_modules
+    command: npm run dev
     networks:
       - iaas-firecracker-network
-
-volumes:
-  postgres_data:
 
 networks:
   iaas-firecracker-network:

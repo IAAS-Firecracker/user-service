@@ -92,7 +92,7 @@ function setupEurekaClient(config) {
       fetchRegistry: true */
     },
     eureka: {
-      host: 'localhost', // || 'localhost' process.env["EUREKA.HOST"]  || 
+      host: 'service-registry', // || 'localhost' process.env["EUREKA.HOST"]  || 
       port: 8761,// process.env["EUREKA.PORT"] ||
       servicePath: '/eureka/apps/',
       maxRetries: 10,
