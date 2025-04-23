@@ -16,4 +16,4 @@ services:
 networks:
   iaas-firecracker-network:
     external: true
-    name: iaas-firecracker-network  # Replace with actual network name
+    name: service-config_iaas-firecracker-network  # Replace with actual network name
