@@ -26,6 +26,7 @@ cd user-service
 npm install
 ```
 
+
 ## 🔧 Configuration
 
 1. Créez un fichier `.env` à la racine du projet
@@ -89,9 +90,18 @@ ADMIN_PASSWORD=1234567a
 
 ## 🚦 Démarrage de l'Application
 
+#### Version non dockerisée
 ```bash
-npm start
+npm run dev
 ```
+
+#### Version dockerisée
+```
+docker compose up --build
+```
+
+Retirer le *--build* si vous ne souhaitez pas reconstruire l'image
+
 
 ## 📡 Points de Terminaison API
 
