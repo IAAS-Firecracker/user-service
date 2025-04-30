@@ -31,17 +31,19 @@ npm install
 1. Créez un fichier `.env` à la racine du projet
 2. Ajoutez les variables d'environnement suivantes :
 
+### version non dockerisée
 ```
 JWT_SECRET=jwt_secret
 
-# Configuration de la base de données
-DB_HOST=db_host
-DB_USER=db_user
-DB_NAME=db_name
-DB_PASSWORD=db_password
+DB_HOST=localhost
+DB_USER=firecracker
+DB_NAME=user_service_db
+DB_PASSWORD=fireCracker
 DB_PORT=5432
 
 DEFAULT_DB_NAME=postgres
+
+PORT=3000
 
 NODE_ENV=development
 
@@ -52,9 +54,37 @@ RABBITMQ_URL=amqp://localhost
 USER_EXCHANGE=UserExchange
 USER_NOTIFICATION_EXCHANGE=UserNotificationExchange
 
-ADMIN_NAME=set_admin_name
-ADMIN_EMAIL=set_admin_email
-ADMIN_PASSWORD=set_admin_password
+ADMIN_NAME=Admin
+ADMIN_EMAIL=admin@gmail.com
+ADMIN_PASSWORD=1234567a
+```
+
+### version dockerisée
+```
+JWT_SECRET=jwt_secret
+
+DB_HOST=postgres
+DB_USER=firecracker
+DB_NAME=user_service_db
+DB_PASSWORD=fireCracker
+DB_PORT=5432
+
+DEFAULT_DB_NAME=firecracker
+
+PORT=3000
+
+NODE_ENV=development
+
+CONFIG_SERVER_URL=http://service-config:8080
+SERVICE_NAME=user-service
+
+RABBITMQ_URL=amqp://rabbitmq
+USER_EXCHANGE=UserExchange
+USER_NOTIFICATION_EXCHANGE=UserNotificationExchange
+
+ADMIN_NAME=Admin
+ADMIN_EMAIL=admin@gmail.com
+ADMIN_PASSWORD=1234567a
 ```
 
 ## 🚦 Démarrage de l'Application

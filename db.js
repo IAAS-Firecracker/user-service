@@ -17,7 +17,7 @@ async function createDatabase(dbname) {
   const client = new Client({
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
-    database: process.env.DEFAULT_DB_NAME,
+    database: process.env.DEFAULT_DB_NAME || "postgres",
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
   });
