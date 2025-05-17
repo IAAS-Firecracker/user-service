@@ -99,9 +99,12 @@ const authMiddleware = require("../middleware/auth");
  *                 message: "Internal Server Error"
  * 
  */
-router.get('', authMiddleware, userController.all);
+router.get('', isAdminMiddleware, userController.all);
 router.get('/:id', authMiddleware, userController.get);
+router.patch('/:id', isAdminMiddleware, userController.update);
+router.patch('/update-profile', authMiddleware, userController.updateProfile);
 router.delete('/:id', isAdminMiddleware, userController.delete);
+router.delete('/delete-profile', authMiddleware, userController.deleteProfile);
 router.post('/create-admin', isAdminMiddleware, userController.createAdmin);
 
 module.exports = router;

@@ -57,7 +57,14 @@ USER_NOTIFICATION_EXCHANGE=UserNotificationExchange
 
 ADMIN_NAME=Admin
 ADMIN_EMAIL=admin@gmail.com
-ADMIN_PASSWORD=1234567a
+ADMIN_PASSWORD=adminpassword
+
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=handsome.nearby@gmail.com
+SMTP_PASS=user_smtp_password
+FROM_EMAIL_NAME="IAAS Firecracker"
+FROM_EMAIL_ADDRESS=handsome.nearby@gmail.com
 ```
 
 ### version dockerisée
@@ -85,7 +92,14 @@ USER_NOTIFICATION_EXCHANGE=UserNotificationExchange
 
 ADMIN_NAME=Admin
 ADMIN_EMAIL=admin@gmail.com
-ADMIN_PASSWORD=1234567a
+ADMIN_PASSWORD=adminpassword
+
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=handsome.nearby@gmail.com
+SMTP_PASS=user_smtp_password
+FROM_EMAIL_NAME="IAAS Firecracker"
+FROM_EMAIL_ADDRESS=handsome.nearby@gmail.com
 ```
 
 ## 🚦 Démarrage de l'Application
@@ -110,11 +124,18 @@ Retirer le *--build* si vous ne souhaitez pas reconstruire l'image
 - `POST /api/auth/register` - Inscription
 - `POST /api/auth/login` - Connexion
 - `POST /api/auth/logout` - Déconnexion
+- `POST /api/auth/send-reset-code` - Envoyer le code de reinitialisation du mot de passe par email
+- `POST /api/auth/reset-password` - Reinitialiser le mot de passe a partir du code envoye par mail
 
 ### Utilisateurs
 
-- `GET /api/users` - Liste des utilisateurs
-- `GET /api/users/:id` - Récupérer un utilisateur
+- `GET /api/users` - Liste des utilisateurs ( Accès admin )
+- `GET /api/users/:id` - Récupérer un utilisateur ( Accès utilisateur )
+- `PATCH /api/users/:id` - Modifier un utilisateur ( Accès admin )
+- `PATCH /api/users/update-profile` - Modifier le profil de l'utilisateur courant ( Accès utilisateur )
+- `DELETE /api/users/:id` - SUpprimer un utilisateur ( Accès admin )
+- `DELETE /api/users/delete-profile` - Supprimer le profil de l'utilisateur courant ( Accès utilisateur )
+- `POST /api/users/create-admin` - Creer un admin ( Accès admin )
 
 ## 🧪 Tests
 

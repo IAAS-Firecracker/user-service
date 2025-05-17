@@ -11,10 +11,12 @@ const { Bank } = require('./models/models');
 const swaggerSpec = require('./swagger');*/
 const cors = require("cors");
 const createAdmin = require('./db/init');
+const bodyParser = require('body-parser');
 
 const app = express();
 
 app.use(express.json());
+app.use(bodyParser.json());
 //app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(cors({
