@@ -86,7 +86,7 @@ exports.update = async (req, res) => {
 
     try {
         const { id } = req.params;
-        const { name, email, password } = req.body;
+        const { name, email } = req.body;
         
         const currentUser = await User.findByPk(id);
         
@@ -94,7 +94,6 @@ exports.update = async (req, res) => {
         {
             if(name != null) currentUser.name = name;
             if(email != null) currentUser.email = email;
-            if(password != null) currentUser.password = password;
             
             currentUser.save();
 
@@ -143,8 +142,8 @@ exports.update = async (req, res) => {
 exports.updateProfile = async (req, res) => {
 
     try {
-        const { userId } = req.userData.userId;
-        const { name, email, password } = req.body;
+        const userId = req.userData.userId;
+        const { name, email } = req.body;
         
         const currentUser = await User.findByPk(userId);
         
@@ -152,7 +151,6 @@ exports.updateProfile = async (req, res) => {
         {
             if(name != null) currentUser.name = name;
             if(email != null) currentUser.email = email;
-            if(password != null) currentUser.password = password;
             
             currentUser.save();
 
@@ -227,7 +225,7 @@ exports.delete = async (req, res) => {
 
 // delete auth user profile
 exports.deleteProfile = async (req, res) => {
-    const { userId } = req.userData.userId;
+    const userId = req.userData.userId;
     try {
         const deletedUser = await User.destroy({ where: { 'id' : userId } });
         
@@ -251,4 +249,27 @@ exports.deleteProfile = async (req, res) => {
             message : err.message
         });
     }
+}
+
+exports.changeUserPassword = async (req, res) => {
+  try {
+        const userId = req.userData.userId;
+        const { password, newPassword } = req.body;
+        const user = await User.findOne({ where: { "id": userId } });
+
+    if (!user) {
+      return res.status(404).json({ message: 'Utilisateur non trouvé' });
+    }
+
+    const isPasswordValid = await user.validPassword(password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Mot de passe incorrect' });
+    }
+
+    if(newPassword != null) user.password = newPassword;
+
+    res.status(200).json({ message: 'Mot de passe modifie avec succes', "user": { "id": user.id, "name": user.name, "email": user.email, "role": user.role } });
+  } catch (err) {
+    res.status(400).json({ message: "Une erreur innatendue lors de la modification du mot de passe", error: err.message });
+  }
 }

@@ -102,6 +102,7 @@ exports.login = async (req, res) => {
   }
 }
 
+
 exports.logout = async (req, res) => {
   try {
     res.clearCookie("token", {
@@ -197,6 +198,48 @@ exports.sendResetCode = async (req, res) => {
   } catch (error) {
       console.error('Erreur:', error);
       res.status(500).json({ error: 'Erreur lors de l\'envoi du code' });
+  }
+}
+
+// Route pour verifier le code envoye par mail
+exports.verifyCode = async (req, res) => {
+  const { email, code } = req.body;
+  
+  if (!email || !code ) {
+      return res.status(400).json({ error: 'Tous les champs sont requis' });
+  }
+
+  try {
+      // Vérifier le code
+      const resetCode = await PasswordResetCode.findOne({ where: {
+          email,
+          used: false,
+          expiresAt: { [Op.gt]: new Date() }
+      }});
+      
+      if (!resetCode) {
+        return res.status(400).json({ error: 'Code invalide' });
+      }
+
+      const isCodeValid = await resetCode.validCode(code);
+      
+      if (!isCodeValid) {
+        return res.status(400).json({ error: 'Code expiré, veuillez en envoyer un nouveau' });
+      }
+
+      // Trouver l'utilisateur
+      const user = await User.findOne({ email });
+      if (!user) {
+          return res.status(404).json({ error: 'Utilisateur non trouvé' });
+      }
+
+      res.json({ 
+          success: true,
+          message: 'Le code correspond bien a celui attendu'
+      });
+  } catch (error) {
+      console.error('Erreur:', error);
+      res.status(500).json({ error: 'Erreur lors de la verification' });
   }
 }
 
