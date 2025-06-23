@@ -270,7 +270,7 @@ exports.resetPassword = async (req, res) => {
       }
 
       // Trouver l'utilisateur
-      const user = await User.findOne({ email });
+      const user = await User.findOne({ where: { email } });
       if (!user) {
           return res.status(404).json({ error: 'Utilisateur non trouvé' });
       }
