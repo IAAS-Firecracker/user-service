@@ -279,6 +279,7 @@ exports.resetPassword = async (req, res) => {
       user.password = newPassword;
       await user.save();
 
+      // console.log("NEWPASSWORD", newPassword, "email", email, "USER", user);
       // Marquer le code comme utilisé
       resetCode.used = true;
       await resetCode.save();

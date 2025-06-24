@@ -55,6 +55,8 @@ RABBITMQ_URL=amqp://localhost
 USER_EXCHANGE=UserExchange
 USER_NOTIFICATION_EXCHANGE=UserNotificationExchange
 
+EUREKA_HOST=localhost
+
 ADMIN_NAME=Admin
 ADMIN_EMAIL=admin@gmail.com
 ADMIN_PASSWORD=adminpassword
@@ -75,7 +77,7 @@ DB_HOST=postgres
 DB_USER=firecracker
 DB_NAME=user_service_db
 DB_PASSWORD=fireCracker
-DB_PORT=5432
+DB_PORT=5433
 
 DEFAULT_DB_NAME=firecracker
 
@@ -89,6 +91,8 @@ SERVICE_NAME=user-service
 RABBITMQ_URL=amqp://rabbitmq
 USER_EXCHANGE=UserExchange
 USER_NOTIFICATION_EXCHANGE=UserNotificationExchange
+
+EUREKA_HOST=service-registry
 
 ADMIN_NAME=Admin
 ADMIN_EMAIL=admin@gmail.com

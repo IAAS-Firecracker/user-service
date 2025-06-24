@@ -11,7 +11,7 @@ const swaggerOptions = {
         servers: [
             {
                 //url: 'http://31.220.93.146:8079/SERVICE-DEMAND',
-                url: 'http://service-proxy:8079/USER-SERVICE',
+                url: 'http://localhost:8079/USER-SERVICE',
             },
         ],
     },

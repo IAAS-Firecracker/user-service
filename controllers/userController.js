@@ -262,7 +262,7 @@ exports.changeUserPassword = async (req, res) => {
     }
 
     const isPasswordValid = await user.validPassword(password);
-    console.log("PASSWORD", password, "NEWPASSWORD", newPassword);
+    console.log("PASSWORD", password, "NEWPASSWORD", newPassword, "userId", userId, "VALID", isPasswordValid);
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Mot de passe incorrect' });
     }
