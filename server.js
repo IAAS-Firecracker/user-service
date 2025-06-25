@@ -53,6 +53,7 @@ const profile = process.env.NODE_ENV || 'development';
 let routeHead = "/api";
 
 async function dbConfigurations() {
+  console.log("Début de la fonction dbConfigurations");
   // créer la base de donées si elle n'existe pas
   await db.createDb(process.env.DB_NAME || 'user_service_db');
   
@@ -63,11 +64,13 @@ async function dbConfigurations() {
     console.log("Les tables ont été synchronisées")
   })
   .catch((err) => console.log("Erreur : " + err));
+  console.log("Fin de la fonction dbConfigurations");
 }
 
 // Routes
 
 async function loadConfiguration(){
+  console.log("Début de la fonction loadConfiguration");
   try {
     console.log("ROUTE", `${configServerUrl}/${applicationName}/${profile}`);
     try {
@@ -101,9 +104,11 @@ async function loadConfiguration(){
   } catch (err) {
     console.log(" : " + err);
   }
+  console.log("Fin de la fonction loadConfiguration");
 }
 
 function setupEurekaClient(config) {
+  console.log("Début de la fonction setupEurekaClient");
   
   port = process.env['SERVER.PORT'] || 5501;
 
@@ -139,11 +144,13 @@ function setupEurekaClient(config) {
     }
   });
 
+  console.log("Fin de la fonction setupEurekaClient");
   return client;
 }
     
 
 async function startApplication() {
+  console.log("Début de la fonction startApplication");
   try {
     await dbConfigurations();
     
@@ -202,6 +209,7 @@ async function startApplication() {
     console.error('Erreur lors du démarrage de l\'application : ' + err);
     process.exit(1);
   }
+  console.log("Fin de la fonction startApplication");
 }
 
 startApplication().then(() => { console.log("APPLICATION START SUCCESSFULLY"); }).catch((err) => { console.log("ERROR", err) });
