@@ -21,11 +21,11 @@ app.use(bodyParser.json());
 
 app.use(cors({
   origin: '*',  // Autoriser toutes les origines
-  methods: ['GET', 'POST', 'PUT', 'DELETE']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
 
 //const port = process.env.PORT || 3000;
-let port = process.env['SERVER.PORT'] || 3000;
+let port = process.env['SERVER.PORT'] || 5501;
 
 const configServerUrl = process.env.CONFIG_SERVER_URL;
 const applicationName = process.env.SERVICE_NAME;
@@ -52,15 +52,35 @@ async function dbConfigurations() {
 
 async function loadConfiguration(){
   try {
-    const response = await axios.get(`${configServerUrl}/${applicationName}/${profile}`);
-    const properties = response.data.propertySources[0].source;
+    console.log("ROUTE", `${configServerUrl}/${applicationName}/${profile}`);
+    try {
+      const response = await axios.get(`${configServerUrl}/${applicationName}/${profile}`, { timeout: 10000 });
+      const properties = response.data.propertySources[0].source;
 
-    Object.entries(properties).forEach(([key, value]) => {
+      Object.entries(properties).forEach(([key, value]) => {
         process.env[key.toUpperCase()] = value;
-    }); 
+      });
 
-    console.log("Configuration spring boot...");
-    return properties;
+      console.log("Configuration spring boot...");
+      return properties;
+    } catch (error) {
+      console.error("Erreur lors de la récupération de la configuration, utilisation des configurations par défaut ");
+      return {
+        'server.port': '5501',
+        'server.address': '0.0.0.0',
+        'management.endpoints.web.exposure.include': '*',
+        'management.endpoints.health.show-details': 'always',
+        'management.info.git.mode': 'full',
+        'eureka.client.service-url.defaultZone': 'http://localhost:8761/eureka/',
+        'eureka.instance.prefer-ip': 'true',
+        'logging.level.org.springframework.amqp': 'DEBUG',
+        'logging.level.org.springframework': 'DEBUG',
+        'spring.rabbitmq.host': 'localhost',
+        'spring.rabbitmq.port': '5672',
+        'spring.rabbitmq.username': 'guest',
+        'spring.rabbitmq.password': 'guest'
+      }; // Retourne un objet vide ou les configurations par défaut
+    }
   } catch (err) {
     console.log(" : " + err);
   }
@@ -68,14 +88,14 @@ async function loadConfiguration(){
 
 function setupEurekaClient(config) {
   
-  port = process.env['SERVER.PORT'] || 3000;
+  port = process.env['SERVER.PORT'] || 5501;
 
   const client = new Eureka({
     instance: {
       app: applicationName,
       hostName: 'localhost', // user-service
       instanceId: applicationName,
-      ipAddr: 'localhost', // user-service
+      ipAddr: '0.0.0.0', // user-service
       statusPageUrl: `http://localhost:${port}/health`,
       homePageUrl: `http://localhost:${port}`,
       port: {
@@ -89,9 +109,9 @@ function setupEurekaClient(config) {
       },
       metadata: {
         'configuration': JSON.stringify(config)
-      }/*,
-      registerWithEureka: true,
-      fetchRegistry: true */
+      },
+      /*registerWithEureka: true,
+      fetchRegistry: true*/
     },
     eureka: {
       host: process.env.EUREKA_HOST || "localhost", // || 'localhost' process.env["EUREKA.HOST"]  || 
@@ -104,19 +124,19 @@ function setupEurekaClient(config) {
 
   return client;
 }
+    
 
 async function startApplication() {
   try {
     await dbConfigurations();
-
+    
     const config = await loadConfiguration();
-
+    
     const eurekaClient = setupEurekaClient(config);
 
     eurekaClient.start(error => {
       console.log(error || 'Client Eureka démarré avec succès');
     });
-    
 
     // Routes
     app.use(`${routeHead}/auth`, authRoutes);
@@ -167,4 +187,4 @@ async function startApplication() {
   }
 }
 
-startApplication();
+startApplication().then(() => { console.log("APPLICATION START SUCCESSFULLY"); }).catch((err) => { console.log("ERROR", err) });
