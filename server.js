@@ -167,7 +167,7 @@ async function startApplication() {
     app.use(`${routeHead}/users`, userRoutes);
 
     // Route pour rafraîchir la configuration
-    app.post('/refresh', async (req, res) => {
+    /*app.post('/refresh', async (req, res) => {
       try {
         const newConfig = await loadConfiguration();
         res.json({
@@ -181,7 +181,7 @@ async function startApplication() {
           "error": err
         });
       }
-    });
+    });*/
 
     // Connexion à rabbitmq
     await rabbitConfig();
