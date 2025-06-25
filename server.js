@@ -73,9 +73,9 @@ function setupEurekaClient(config) {
   const client = new Eureka({
     instance: {
       app: applicationName,
-      hostName: 'user-service',
+      hostName: 'localhost', // user-service
       instanceId: applicationName,
-      ipAddr: 'user-service',
+      ipAddr: 'localhost', // user-service
       statusPageUrl: `http://localhost:${port}/health`,
       homePageUrl: `http://localhost:${port}`,
       port: {
