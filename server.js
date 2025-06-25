@@ -19,10 +19,27 @@ app.use(express.json());
 app.use(bodyParser.json());
 //app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.use(cors({
+/*app.use(cors({
   origin: '*',  // Autoriser toutes les origines
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+}));*/
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Liste des origines autorisées
+    const allowedOrigins = ['http://localhost:3000', 'http://example.com'];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true // Autorise les cookies et les en-têtes d'authentification
 }));
+
+app.options('*', cors());
 
 //const port = process.env.PORT || 3000;
 let port = process.env['SERVER.PORT'] || 5501;
